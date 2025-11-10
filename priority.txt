@@ -1,0 +1,87 @@
+﻿class PriorityQueue {
+    int[] queue;
+    int size;
+    int capacity;
+
+    // Constructor
+    PriorityQueue(int capacity) {
+        this.capacity = capacity;
+        queue = new int[capacity];
+        size = 0;
+    }
+
+    // Check if queue is empty
+    boolean isEmpty() {
+        return size == 0;
+    }
+
+    // Check if queue is full
+    boolean isFull() {
+        return size == capacity;
+    }
+
+    // Insert element (in sorted order — smallest priority first)
+    void enqueue(int data) {
+        if (isFull()) {
+            System.out.println("Queue is Full");
+            return;
+        }
+
+        int i;
+        // Shift elements to keep array sorted
+        for (i = size - 1; i >= 0 && queue[i] > data; i--) {
+            queue[i + 1] = queue[i];
+        }
+
+        // Insert element
+        queue[i + 1] = data;
+        size++;
+        System.out.println(data + " inserted into priority queue");
+    }
+
+    // Remove element with highest priority (smallest value)
+    int dequeue() {
+        if (isEmpty()) {
+            System.out.println("Queue is Empty");
+            return -1;
+        }
+
+        // Element with highest priority is at index 0
+        int val = queue[0];
+
+        // Shift remaining elements
+        for (int i = 0; i < size - 1; i++) {
+            queue[i] = queue[i + 1];
+        }
+
+        size--;
+        return val;
+    }
+
+    // Display queue
+    void display() {
+        if (isEmpty()) {
+            System.out.println("Queue is Empty");
+            return;
+        }
+        System.out.print("Priority Queue: ");
+        for (int i = 0; i < size; i++) {
+            System.out.print(queue[i] + " ");
+        }
+        System.out.println();
+    }
+
+    // Main method
+    public static void main(String[] args) {
+        PriorityQueue pq = new PriorityQueue(5);
+        pq.enqueue(30);
+        pq.enqueue(10);
+        pq.enqueue(50);
+        pq.enqueue(20);
+
+        pq.display();
+
+        System.out.println("Removed: " + pq.dequeue());
+        pq.display();
+    }
+}
